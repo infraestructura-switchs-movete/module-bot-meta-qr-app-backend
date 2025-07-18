@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Notificaciones</title>
+    <link rel="stylesheet" href="./Styles/StyleNotificacion.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+    <!-- Agregar Font Awesome para el ícono del botón -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css "
+    />
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-content">
+        <h1>Restarurante Manger</h1>
+      </div>
+    </header>
+    <!-- Sección principal -->
+
+    <div class="panel-header">
+      <div class="Panel-notificacion">
+        <i class="fa-solid fa-clipboard-list"></i> Panel De Notificaciones
+      </div>
+      <span class="llamadas-activas"
+        >LLAMADAS ACTIVAS: <span id="contador-llamadas">0</span></span
+      >
+      <div class="Historial">
+        <button class="historial-btn">
+          <i class="fa-solid fa-file-lines"></i> Historial
+        </button>
+      </div>
+    </div>
+    <!-- Encabezado
+     
+    -->
+
+    <main class="mesas-container">
+      <!-- Mesas con contenedores de pedidos -->
+      <div class="mesa mesa-1">
+        <div class="mesa-header">
+          <h3>Mesa 1</h3>
+          <span class="total-acumulado">$0</span>
+          <button class="Cerrar-cuenta">Cerrar Cuenta</button>
+        </div>
+        <div id="notificaciones-mesa-1"></div>
+        <div class="pedido-container">
+          <div class="pedido-list">
+            <ul class="pedido-items"></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="mesa mesa-2">
+        <div class="mesa-header">
+          <h3>Mesa 2</h3>
+          <span class="total-acumulado">$0</span>
+          <button class="Cerrar-cuenta">Cerrar Cuenta</button>
+        </div>
+        <div id="notificaciones-mesa-2"></div>
+        <div class="pedido-container">
+          <div class="pedido-list">
+            <ul class="pedido-items"></ul>
+          </div>
+        </div>
+      </div>
+      <div class="mesa mesa-3">
+        <div class="mesa-header">
+          <h3>Mesa 3</h3>
+          <span class="total-acumulado">$0</span>
+          <button class="Cerrar-cuenta">Cerrar Cuenta</button>
+        </div>
+        <div id="notificaciones-mesa-3"></div>
+        <div class="pedido-container">
+          <div class="pedido-list">
+            <ul class="pedido-items"></ul>
+          </div>
+        </div>
+      </div>
+      <div class="mesa mesa-4">
+        <div class="mesa-header">
+          <h3>Mesa 4</h3>
+          <span class="total-acumulado">$0</span>
+          <button class="Cerrar-cuenta">Cerrar Cuenta</button>
+        </div>
+        <div id="notificaciones-mesa-4"></div>
+        <div class="pedido-container">
+          <div class="pedido-list">
+            <ul class="pedido-items"></ul>
+          </div>
+        </div>
+      </div>
+      <div class="mesa mesa-5">
+        <div class="mesa-header">
+          <h3>Mesa 5</h3>
+          <span class="total-acumulado">$0</span>
+          <button class="Cerrar-cuenta">Cerrar Cuenta</button>
+        </div>
+        <div id="notificaciones-mesa-5"></div>
+        <div class="pedido-container">
+          <div class="pedido-list">
+            <ul class="pedido-items"></ul>
+          </div>
+        </div>
+      </div>
+      <div class="mesa mesa-6">
+        <div class="mesa-header">
+          <h3>Mesa 6</h3>
+          <span class="total-acumulado">$0</span>
+          <button class="Cerrar-cuenta">Cerrar Cuenta</button>
+        </div>
+        <div id="notificaciones-mesa-6"></div>
+        <div class="pedido-container">
+          <div class="pedido-list">
+            <ul class="pedido-items"></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="mesa mesa-7">
+        <div class="mesa-header">
+          <h3>Mesa 7</h3>
+          <span class="total-acumulado">$0</span>
+          <button class="Cerrar-cuenta">Cerrar Cuenta</button>
+        </div>
+        <div id="notificaciones-mesa-7"></div>
+        <div class="pedido-container">
+          <div class="pedido-list">
+            <ul class="pedido-items"></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="mesa mesa-8">
+        <div class="mesa-header">
+          <h3>Mesa 8</h3>
+          <span class="total-acumulado">$0</span>
+          <button class="Cerrar-cuenta">Cerrar Cuenta</button>
+        </div>
+        <div id="notificaciones-mesa-8"></div>
+        <div class="pedido-container">
+          <div class="pedido-list">
+            <ul class="pedido-items"></ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="mesa mesa-9">
+        <div class="mesa-header">
+          <h3>Mesa 9</h3>
+          <span class="total-acumulado">$0</span>
+          <button class="Cerrar-cuenta">Cerrar Cuenta</button>
+        </div>
+        <div id="notificaciones-mesa-"></div>
+        <div class="pedido-container">
+          <div class="pedido-list">
+            <ul class="pedido-items"></ul>
+          </div>
+        </div>
+      </div>
+    </main>
+    <!-- Panel de historial (oculto inicialmente) - Versión mejorada -->
+    <div class="history-panel" style="display: none">
+      <div class="history-header">
+        <h2 class="header-title">
+          <svg
+            class="icon-clock"
+            xmlns="http://www.w3.org/2000/svg"
+            width="18"
+            height="18"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          HISTORIAL DE LLAMADAS
+        </h2>
+        <button class="close-history-btn">&times;</button>
+      </div>
+      <div class="history-content">
+        <div id="historial-notificaciones">
+          <div class="no-records">No hay registros en el historial</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Elemento de audio para reproducir la notificación -->
+    <audio id="sonido-notificacion" src="campana.mp3"></audio>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const socket = io();
+      const sonido = document.getElementById("sonido-notificacion");
+      const contadorLlamadas = document.getElementById("contador-llamadas");
+      const historialPanel = document.querySelector(".history-panel");
+      const historialBtn = document.querySelector(".historial-btn");
+
+      // Historial de notificaciones
+      const historial = [];
+      let llamadasActivas = 0;
+
+      // Mostrar/ocultar el panel de historial con animación
+      historialBtn.addEventListener("click", () => {
+        historialPanel.style.display = "block";
+        setTimeout(() => {
+          historialPanel.classList.toggle("active");
+        }, 10);
+      });
+
+      document
+        .querySelector(".close-history-btn")
+        .addEventListener("click", () => {
+          historialPanel.classList.remove("active");
+          setTimeout(() => {
+            historialPanel.style.display = "none";
+          }, 300);
+        });
+
+      // Escuchar evento de mesa ocupada
+      socket.on("mesa_ocupada", (datos) => {
+        console.log("Mesa ocupada:", datos);
+        const mesaElement = document.querySelector(`.mesa-${datos.mesa}`);
+
+        if (mesaElement) {
+          // Crear contenedor compartido para estado y botón
+          const statusContainer = document.createElement("div");
+          statusContainer.className = "status-container";
+
+          const historialBtn = document.createElement("button");
+          historialBtn.className = "historial-mesa-btn";
+          historialBtn.textContent = "📅 Historial";
+          historialBtn.onclick = () => mostrarHistorialMesa(datos.mesa);
+          statusContainer.appendChild(historialBtn);
+          // Estado ocupada
+          const statusElement = document.createElement("div");
+          statusElement.className = "mesa-status";
+          statusElement.textContent = "🟢 Ocupada";
+          statusContainer.appendChild(statusElement);
+
+          mesaElement.appendChild(statusContainer);
+          mesaElement.classList.add("ocupada");
+        }
+      });
+
+      socket.on("formas_de_pago", (datos) => {
+        console.log("formas_de_pago:", datos);
+        const mesaElement = document.querySelector(`.mesa-${datos.mesa}`);
+
+        if (mesaElement) {
+          // Verificar si ya existe el contenedor de estado
+          let statusContainer = mesaElement.querySelector(".status-container");
+
+          // Si no existe, crearlo
+          if (!statusContainer) {
+            statusContainer = document.createElement("div");
+            statusContainer.className = "status-container";
+            mesaElement.appendChild(statusContainer);
+          }
+
+          // Crear el elemento para "solicitud de cuenta"
+          const formaDePagoElement = document.createElement("div");
+          formaDePagoElement.className = "forma_de_pago";
+          formaDePagoElement.textContent = "🔴 solicitud de cuenta";
+          statusContainer.appendChild(formaDePagoElement);
+        }
+      });
+
+      // Función para guardar pedidos en el historial
+      function guardarEnHistorial(mesa, pedidoData) {
+        // Obtener el historial actual de localStorage
+        const historial =
+          JSON.parse(localStorage.getItem("historialPedidos")) || {};
+
+        // Si no existe historial para esta mesa, crear un array vacío
+        if (!historial[mesa]) {
+          historial[mesa] = [];
+        }
+
+        // Agregar el nuevo pedido al historial de la mesa
+        historial[mesa].push({
+          ...pedidoData,
+          fecha: new Date().toISOString(), // Agregar marca de tiempo
+        });
+
+        // Guardar en localStorage
+        localStorage.setItem("historialPedidos", JSON.stringify(historial));
+      }
+
+      // Función para obtener el historial de una mesa
+      function obtenerHistorialMesa(mesa) {
+        const historial =
+          JSON.parse(localStorage.getItem("historialPedidos")) || {};
+        return historial[mesa] || [];
+      }
+
+      function mostrarHistorialMesa(mesa) {
+        // Obtener el historial persistente
+        const historial = obtenerHistorialMesa(mesa);
+
+        if (historial.length === 0) {
+          alert("No hay pedidos históricos para esta mesa");
+          return;
+        }
+
+        // Crear modal
+        const modal = document.createElement("div");
+        modal.className = "historial-modal";
+
+        // Contenido del modal
+        const modalContent = document.createElement("div");
+        modalContent.className = "modal-content";
+
+        // Título
+        const titulo = document.createElement("h3");
+        titulo.textContent = `Historial completo de Mesa ${mesa}`;
+        modalContent.appendChild(titulo);
+
+        // Lista de pedidos
+        const pedidosList = document.createElement("div");
+        pedidosList.className = "pedidos-list";
+
+        // Mostrar cada pedido del historial
+        historial.forEach((pedido, index) => {
+          const pedidoDiv = document.createElement("div");
+          pedidoDiv.className = "pedido-historico";
+
+          // Fecha del pedido
+          const fecha = new Date(pedido.timestamp || pedido.fecha);
+          const fechaFormateada = fecha.toLocaleString("es-CO");
+
+          const fechaDiv = document.createElement("div");
+          fechaDiv.className = "fecha-pedido";
+          fechaDiv.textContent = `📅 ${fechaFormateada}`;
+          pedidoDiv.appendChild(fechaDiv);
+
+          // Items del pedido
+          const itemsList = document.createElement("ul");
+          pedido.items.forEach((item) => {
+            const li = document.createElement("li");
+            li.textContent = `${item.qty} x ${item.name} - $${item.price}`;
+            itemsList.appendChild(li);
+          });
+          pedidoDiv.appendChild(itemsList);
+
+          // Total del pedido
+          const totalDiv = document.createElement("div");
+          totalDiv.className = "total-pedido-historico";
+          totalDiv.textContent = `Total: $${pedido.total}`;
+          pedidoDiv.appendChild(totalDiv);
+
+          pedidosList.appendChild(pedidoDiv);
+        });
+
+        modalContent.appendChild(pedidosList);
+
+        // Botón para cerrar
+        const cerrarBtn = document.createElement("button");
+        cerrarBtn.textContent = "Cerrar Historial";
+        cerrarBtn.onclick = () => modal.remove();
+        modalContent.appendChild(cerrarBtn);
+
+        modal.appendChild(modalContent);
+        document.body.appendChild(modal);
+      }
+
+      socket.on("nuevo_pedido", (datos) => {
+        console.log("Nuevo pedido recibido:", datos);
+        const mesaElement = document.querySelector(`.mesa-${datos.mesa}`);
+        if (mesaElement) {
+          const pedidoContainer =
+            mesaElement.querySelector(".pedido-container");
+
+          // Crear contenedor para el nuevo pedido
+          const nuevoPedido = document.createElement("div");
+          nuevoPedido.classList.add("pedido-item");
+
+          // Contenedor para hora y botón (flex)
+          const headerPedido = document.createElement("div");
+          headerPedido.classList.add("pedido-header");
+
+          // Agregar hora
+          let tiempo;
+          if (datos.timestamp instanceof Date) {
+            tiempo = datos.timestamp;
+          } else if (
+            typeof datos.timestamp === "string" ||
+            typeof datos.timestamp === "number"
+          ) {
+            tiempo = new Date(datos.timestamp);
+          } else {
+            tiempo = new Date(); // Usar hora actual si el timestamp no es válido
+          }
+
+          const horaFormateada = tiempo.toLocaleTimeString("es-CO", {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          });
+
+          const tiempoDiv = document.createElement("div");
+          tiempoDiv.classList.add("tiempo");
+          tiempoDiv.textContent = `⏰ ${horaFormateada}`;
+          headerPedido.appendChild(tiempoDiv);
+
+          // Botón "Enviado"
+          const botonEnviado = document.createElement("button");
+          botonEnviado.classList.add("btn-enviado");
+          botonEnviado.textContent = "✅ Enviado";
+          botonEnviado.onclick = function () {
+            // Guardar el pedido en el historial persistente
+            guardarEnHistorial(datos.mesa, {
+              items: datos.items,
+              total: datos.total,
+              timestamp: datos.timestamp || new Date(),
+            });
+
+            // Limpiar solo los pedidos actuales (sin afectar el total acumulado)
+            const pedidoContainer =
+              mesaElement.querySelector(".pedido-container");
+            pedidoContainer.innerHTML = "";
+
+            alert("Pedido enviado al historial correctamente");
+          };
+          headerPedido.appendChild(botonEnviado);
+
+          // Lista de ítems del pedido
+          const pedidoItems = document.createElement("ul");
+          pedidoItems.classList.add("pedido-items");
+          datos.items.forEach((item) => {
+            const li = document.createElement("li");
+            li.textContent = `${item.qty} x ${item.name} - $${item.price}`;
+            pedidoItems.appendChild(li);
+          });
+
+          // Total del pedido
+          const totalPedido = document.createElement("div");
+          totalPedido.classList.add("pedido-total");
+          totalPedido.textContent = `Total: $${datos.total}`;
+
+          // Agregar elementos al contenedor del pedido
+          nuevoPedido.appendChild(headerPedido);
+          nuevoPedido.appendChild(pedidoItems);
+          nuevoPedido.appendChild(totalPedido);
+
+          // Actualizar el total acumulado
+          const totalAcumuladoElement =
+            mesaElement.querySelector(".total-acumulado");
+          if (totalAcumuladoElement) {
+            const textoActual = totalAcumuladoElement.textContent;
+            const valorActual =
+              parseFloat(textoActual.replace(/[^\d]/g, "")) || 0;
+            const nuevoTotalNumerico =
+              typeof datos.total === "string"
+                ? parseFloat(datos.total.replace(/[^\d]/g, ""))
+                : datos.total;
+            const nuevoAcumulado = valorActual + nuevoTotalNumerico;
+            totalAcumuladoElement.textContent = `$${nuevoAcumulado.toLocaleString(
+              "es-CO"
+            )}`;
+          }
+
+          // Agregar el nuevo pedido al contenedor de pedidos
+          pedidoContainer.appendChild(nuevoPedido);
+        }
+      });
+
+      socket.on("llamada_mesero", (datos) => {
+        console.log("Nueva llamada de mesero:", datos);
+
+        sonido.play();
+
+        const tiempo = new Date(datos.timestamp);
+        const horaFormateada = tiempo.toLocaleTimeString();
+        const nuevaNotificacion = document.createElement("div");
+        nuevaNotificacion.className = "notificacion nueva";
+        nuevaNotificacion.dataset.mesa = datos.mesa;
+        nuevaNotificacion.innerHTML = `
+                                <div class="mesa">🔔 Solicita mesero</div>
+                                <div class="tiempo">⏰ ${horaFormateada}</div>
+                                <button onclick="atenderLlamada(this)">✅ Atendido</button>
+                              `;
+
+        const mesaElement = document.getElementById(
+          `notificaciones-mesa-${datos.mesa}`
+        );
+        mesaElement.appendChild(nuevaNotificacion);
+
+        llamadasActivas++;
+        contadorLlamadas.textContent = llamadasActivas;
+
+        historial.unshift(datos);
+        actualizarHistorial();
+
+        if (document.hidden && Notification.permission === "granted") {
+          new Notification("Llamada de Mesero", {
+            body: `Mesa #${datos.mesa} solicita mesero`,
+            icon: "/favicon.ico",
+          });
+        }
+      });
+
+      // Escuchar el evento 'limpiar_notificaciones'
+      socket.on("limpiar_notificaciones", (datos) => {
+        const mesaId = datos.mesa;
+
+        // Limpiar el estado visual de la mesa
+        const mesaElement = document.querySelector(`.mesa-${mesaId}`);
+        if (mesaElement) {
+          mesaElement.classList.remove("ocupada"); // Remover clase "ocupada"
+          const statusElement = mesaElement.querySelector(".mesa-status");
+          if (statusElement) {
+            statusElement.remove(); // Remover el indicador "🟢 Ocupada"
+          }
+
+          // Eliminar el botón de historial si existe
+          const historialBtn = mesaElement.querySelector(".historial-mesa-btn");
+          if (historialBtn) {
+            historialBtn.remove(); // Eliminar el botón de historial
+          }
+
+          const formaDePagoElement =
+            mesaElement.querySelector(".forma_de_pago");
+          if (formaDePagoElement) {
+            historialBtn.remove(); // Eliminar el botón de historial
+          }
+
+          // Limpiar las notificaciones específicas de esta mesa
+          const notificacionesMesa = document.getElementById(
+            `notificaciones-mesa-${mesaId}`
+          );
+          if (notificacionesMesa) {
+            notificacionesMesa.innerHTML = ""; // Limpiar todas las notificaciones
+          }
+
+          // Limpiar el pedido actual si existe
+          const pedidoContainer =
+            mesaElement.querySelector(".pedido-container");
+          if (pedidoContainer) {
+            const pedidoItems = pedidoContainer.querySelector(".pedido-items");
+            pedidoItems.innerHTML = ""; // Limpiar los ítems del pedido
+            const totalElement = pedidoContainer.querySelector(".total");
+            totalElement.textContent = "0"; // Resetear el total
+          }
+        }
+      });
+
+      document.querySelectorAll(".Cerrar-cuenta").forEach((boton) => {
+        boton.addEventListener("click", () => {
+          const mesaElement = boton.closest(".mesa");
+          const mesaId = mesaElement.classList[1].split("-")[1];
+
+          // Limpiar toda la información de la mesa
+          limpiarMesaCompleta(mesaId);
+
+          // Emitir evento al servidor para limpiar notificaciones
+          socket.emit("limpiar_notificaciones", { mesa: mesaId });
+        });
+      });
+
+      // Función para limpiar completamente una mesa
+      function limpiarMesaCompleta(mesaId) {
+        const mesaElement = document.querySelector(`.mesa-${mesaId}`);
+
+        if (mesaElement) {
+          // 1. Limpiar estado visual
+          mesaElement.classList.remove("ocupada");
+
+          // 2. Eliminar elementos de estado
+          const statusContainer =
+            mesaElement.querySelector(".status-container");
+          if (statusContainer) statusContainer.remove();
+
+          // 3. Limpiar notificaciones
+          const notificacionesMesa = document.getElementById(
+            `notificaciones-mesa-${mesaId}`
+          );
+          if (notificacionesMesa) notificacionesMesa.innerHTML = "";
+
+          // 4. Limpiar TODOS los contenedores de pedidos
+          const pedidoContainer =
+            mesaElement.querySelector(".pedido-container");
+          if (pedidoContainer) {
+            // Limpiar el contenedor principal de pedidos
+            pedidoContainer.innerHTML = "";
+
+            // Recrear la estructura básica vacía
+            const pedidoList = document.createElement("div");
+            pedidoList.className = "pedido-list";
+
+            const pedidoItems = document.createElement("ul");
+            pedidoItems.className = "pedido-items";
+
+            pedidoList.appendChild(pedidoItems);
+            pedidoContainer.appendChild(pedidoList);
+          }
+
+          // 5. Resetear total acumulado
+          const totalAcumulado = mesaElement.querySelector(".total-acumulado");
+          if (totalAcumulado) totalAcumulado.textContent = "$0";
+        }
+      }
+
+      document.querySelectorAll(".Cerrar-cuenta").forEach((boton) => {
+        boton.addEventListener("click", () => {
+          const mesaElement = boton.closest(".mesa");
+          const mesaId = mesaElement.classList[1].split("-")[1];
+          socket.emit("limpiar_notificaciones", { mesa: mesaId });
+        });
+      });
+
+      function atenderLlamada(boton) {
+        const elemento = boton.parentElement;
+        elemento.classList.remove("nueva");
+        elemento.querySelector("button").remove();
+
+        llamadasActivas--;
+        contadorLlamadas.textContent = llamadasActivas;
+
+        setTimeout(() => {
+          elemento.remove();
+        }, 3000);
+
+        const mesaId = elemento.dataset.mesa;
+        const mesaCount = document.querySelector(
+          `.mesa.mesa-${mesaId} .notificacion-count`
+        );
+        if (mesaCount) {
+          const count = parseInt(mesaCount.textContent);
+          if (count > 1) {
+            mesaCount.textContent = count - 1;
+          } else {
+            mesaCount.remove();
+          }
+        }
+      }
+
+      function actualizarHistorial() {
+        const historialContainer = document.getElementById(
+          "historial-notificaciones"
+        );
+
+        if (historial.length > 0) {
+          historialContainer.innerHTML = "";
+        }
+
+        const mostrar = historial.slice(0, 10);
+        if (mostrar.length === 0) {
+          historialContainer.innerHTML = `
+                                  <div class="no-records">
+                                    No hay registros en el historial
+                                  </div>
+                                `;
+        } else {
+          mostrar.forEach((item) => {
+            const tiempo = new Date(item.timestamp);
+            const horaFormateada = tiempo.toLocaleTimeString();
+            const elemento = document.createElement("div");
+            elemento.className = "history-item";
+            elemento.innerHTML = `
+                                    <div class="item-details">
+                                      <svg class="icon-bell" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                                      </svg>
+                                      <span class="table-number">Mesa #${item.mesa}</span>
+                                    </div>
+                                    <div class="item-timestamp">
+                                      <svg class="icon-clock-small" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12 6 12 12 16 14"></polyline>
+                                      </svg>
+                                      ${horaFormateada}
+                                    </div>
+                                  `;
+            historialContainer.appendChild(elemento);
+          });
+        }
+      }
+
+      if (
+        Notification.permission !== "granted" &&
+        Notification.permission !== "denied"
+      ) {
+        Notification.requestPermission();
+      }
+
+      // Función para obtener el estado del pedido desde el endpoint
+      async function fetchOrderStatus(phone) {
+        try {
+          const response = await fetch(
+            `https://8e61-161-10-46-49.ngrok-free.app/order-status?phone=${phone}`
+          ); // Cambiar aca el ngrok que se va a usar
+          if (!response.ok) {
+            throw new Error("Error al obtener el estado del pedido");
+          }
+          const data = await response.json();
+          return data;
+        } catch (error) {
+          console.error("Error:", error);
+          return null;
+        }
+      }
+
+      // Función para actualizar la mesa con los datos del pedido
+      function updateMesaWithOrder(orderData) {
+        const mesaId = orderData.mesa;
+        const mesaElement = document.querySelector(`.mesa-${mesaId}`);
+        if (mesaElement) {
+          const pedidoItems = mesaElement.querySelector(".pedido-items");
+          const totalAcumuladoElement =
+            mesaElement.querySelector(".total-acumulado");
+
+          // Obtener el total acumulado actual
+          let totalAcumulado =
+            parseFloat(totalAcumuladoElement.textContent.replace("$", "")) || 0;
+
+          // Agregar los nuevos ítems del pedido SIN limpiar los anteriores
+          orderData.items.forEach((item) => {
+            const li = document.createElement("li");
+            li.innerHTML = `${item.qty} x ${item.name} - $${item.price}`;
+            pedidoItems.appendChild(li);
+
+            // Sumar al total acumulado
+            totalAcumulado += item.price * item.qty;
+          });
+
+          // Actualizar el total acumulado en el DOM
+          totalAcumuladoElement.textContent = `$${totalAcumulado.toFixed(2)}`;
+
+          // Marcar la mesa como ocupada si no lo está
+          if (!mesaElement.classList.contains("ocupada")) {
+            mesaElement.classList.add("ocupada");
+            const statusElement = document.createElement("div");
+            statusElement.className = "mesa-status";
+            statusElement.textContent = "🟢 Ocupada";
+            mesaElement.appendChild(statusElement);
+          }
+        }
+      }
+
+      // Función para marcar un pedido como entregado
+      function marcarEntregado(button, precio) {
+        const li = button.parentElement; // Obtener el elemento <li> padre
+        const pedidoContainer = li.closest(".pedido-container");
+        const totalElement = pedidoContainer.querySelector(".total");
+
+        // Eliminar el ítem del DOM
+        li.remove();
+
+        // Restar el precio del ítem al total acumulado
+        let totalActual = parseFloat(totalElement.textContent) || 0;
+        totalActual -= precio;
+        totalElement.textContent = totalActual.toFixed(2);
+
+        // Si no quedan más pedidos, resetear el estado de la mesa
+        const pedidoItems = pedidoContainer.querySelector(".pedido-items");
+        if (pedidoItems.children.length === 0) {
+          const mesaElement = pedidoContainer.closest(".mesa");
+          mesaElement.classList.remove("ocupada"); // Remover clase "ocupada"
+          const statusElement = mesaElement.querySelector(".mesa-status");
+          if (statusElement) statusElement.remove(); // Remover indicador "🟢 Ocupada"
+        }
+      }
+
+      function updateMesaWithOrder(orderData) {
+        const mesaId = orderData.mesa;
+        const mesaElement = document.querySelector(`.mesa-${mesaId}`);
+        if (mesaElement) {
+          const totalAcumulado = mesaElement.querySelector(".total-acumulado");
+          const totalActual =
+            parseFloat(totalAcumulado.textContent.replace("$", "")) || 0;
+
+          // Calcular el nuevo total acumulado
+          let nuevoTotal = totalActual + orderData.total;
+
+          // Actualizar el total acumulado
+          totalAcumulado.textContent = `$${nuevoTotal.toFixed(2)}`;
+        }
+      }
+
+      // Ejemplo de uso: Actualizar una mesa específica
+      async function checkAndUpdateMesa(phone) {
+        const orderData = await fetchOrderStatus(phone);
+        if (orderData) {
+          updateMesaWithOrder(orderData);
+        }
+      }
+
+      // Llamar a la función para verificar y actualizar una mesa
+      async function updateAllMesas() {
+        try {
+          const response = await fetch(
+            "https://8e61-161-10-46-49.ngrok-free.app/all-orders"
+          ); // cambiar aca el ngrok actual usado
+          const data = await response.json();
+
+          data.forEach((order) => {
+            updateMesaWithOrder(order);
+          });
+        } catch (error) {
+          console.error("Error al obtener todos los pedidos:", error);
+        }
+      }
+
+      setInterval(updateAllMesas, 10000);
+      updateAllMesas(); // Puedes cambiar el número de teléfono según sea necesario
+    </script>
+  </body>
+</html>

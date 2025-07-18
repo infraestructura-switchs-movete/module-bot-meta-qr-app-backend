@@ -1,0 +1,915 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Encabezado */
+
+.header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #fff;
+  text-align: left; /* Centra el título */
+  width: 100%; /* Asegura que el título ocupe todo el ancho */
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between; /* separa izquierda y derecha */
+  align-items: center;
+
+  border-radius: 10px 10px 0 0; /* solo arriba */
+  margin-top: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+  background-color: red;
+  color: white;
+  font-size: 20px;
+  padding: 10px 20px;
+}
+
+.Historial {
+  background-color: white;
+  color: red;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.mesa-header {
+  display: flex;
+  justify-content: space-between; /* Alinea los elementos horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  background-color: red;
+  padding: 0.5rem 1rem;
+}
+
+.total-acumulado {
+  font-weight: bold;
+  color: white;
+  margin-left: auto; /* Empuja el total hacia el centro-derecha */
+  margin-right: auto; /* Centra el total entre el número de mesa y el botón */
+}
+.Cerrar-cuenta {
+  margin: 5px;
+  padding: 5px 10px; /* Espaciado interno para hacerlo más grande */
+  border-radius: 5px; /* Bordes redondeados */
+  background-color: rgb(255, 255, 255); /* Color de fondo rojo */
+  color: rgb(0, 0, 0); /* Texto blanco */
+  border: 2px solid white;
+  font-size: 13px; /* Tamaño de fuente */
+  font-weight: bold; /* Texto en negrita */
+  cursor: pointer; /* Cambia el cursor a una mano */
+  transition: background-color 0.3s ease, transform 0.2s ease; /* Efecto suave */
+}
+
+.Cerrar-cuenta:active {
+  transform: scale(0.95); /* Reduce ligeramente el tamaño al hacer clic */
+}
+.llamadas-activas {
+  background-color: red;
+  font-weight: bold;
+  color: #ffffff;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.historial-btn {
+  background-color: #fff; /* Fondo blanco para el botón */
+  color: red; /* Texto rojo para el botón */
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  gap: 5px; /* Espacio entre el ícono y el texto del botón */
+}
+
+.historial-btn i {
+  margin-right: 0.5rem;
+  color: red;
+}
+
+.mesa {
+  background-color: #fff;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Evita que las mesas se expandan más allá del contenido */
+  max-height: 500px; /* Asegura una altura máxima para las mesas */
+}
+
+/* Notificaciones */
+.notificacion {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.notificacion.nueva {
+  display: flex;
+  justify-content: space-between;
+  background-color: #ffe0e0; /* Rosa claro para notificaciones nuevas */
+  animation: parpadeo 1.5s infinite;
+}
+
+@keyframes parpadeo {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.notificacion .mesa {
+  font-weight: bold;
+  color: #333;
+}
+
+.notificacion .tiempo {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.notificacion button {
+  background-color: #28a745; /* Verde claro */
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.notificacion button:hover {
+  background-color: #218838;
+}
+
+/* Botón de cantidad de notificaciones */
+.mesa .notificacion-count {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background-color: #dc3545;
+  color: #fff;
+  font-size: 0.8rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Panel de historial */
+.history-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 300px;
+  height: 100vh;
+  background-color: #fff;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+  transform: translateX(100%);
+  border-left: 1px solid #e0e0e0;
+}
+
+.history-panel.active {
+  transform: translateX(0);
+}
+
+.history-header {
+  background-color: #ff0000; /* Rojo vivo */
+  color: #fff; /* Texto blanco */
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Espacio entre el título y el botón de cierre */
+}
+
+.titulo-panel {
+  text-align: center; /* Centra el texto horizontalmente */
+  margin: 0 auto; /* Asegura que el elemento esté centrado en su contenedor */
+  width: 100%; /* Ocupa todo el ancho disponible */
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff; /* Asegurar que el texto sea blanco */
+}
+
+.icon-clock {
+  margin-right: 8px;
+  color: #fff; /* Ícono blanco */
+}
+
+.close-history-btn {
+  background: none;
+  border: none;
+  color: #fff; /* Botón de cierre blanco */
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Contenido del historial */
+.history-content {
+  max-height: 600px;
+  overflow-y: auto;
+  border-top: 1px solid #e5e7eb; /* Separador entre el encabezado y el contenido */
+}
+
+.history-item {
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb; /* Línea divisoria entre elementos */
+}
+
+.history-item:hover {
+  background-color: #f9fafb; /* Fondo claro al pasar el ratón */
+}
+
+.item-details,
+.item-timestamp {
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
+}
+
+.item-details .icon-bell,
+.item-timestamp .icon-clock-small {
+  margin-right: 8px;
+  color: #6b7280; /* Íconos grises */
+}
+
+.item-timestamp {
+  margin-top: 4px;
+  color: #6b7280; /* Texto gris */
+}
+
+.table-number {
+  font-weight: 500;
+  color: #1f2937; /* Texto oscuro */
+}
+
+/* Mensaje sin registros */
+.no-records {
+  text-align: center;
+  padding: 20px;
+  color: #6b7280; /* Texto gris */
+  font-size: 0.875rem;
+}
+
+/* Estilos adicionales para el contenedor de pedidos */
+.pedido-container {
+  max-height: 300px; /* Establece una altura máxima para los pedidos */
+  overflow-y: auto; /* Solo habilitar scroll si hay contenido */
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.pedido-items {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.pedido-items li {
+  margin-bottom: 8px;
+  padding: 5px 0;
+  border-bottom: 1px dashed #eee;
+}
+
+.pedido-total {
+  font-weight: bold;
+  text-align: right;
+  margin-top: 10px;
+  font-size: 1.1em;
+}
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Estilos generales */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+}
+
+/* Encabezado */
+.header {
+  background-color: #ff0000; /* Fondo rojo */
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between; /* Alinea el título y el contador por separado */
+  align-items: center; /* Centra verticalmente */
+  text-align: center; /* Centra el texto dentro del header */
+}
+
+.header-content {
+  display: flex;
+  flex-direction: column; /* Organiza el contenido en columna */
+  align-items: center; /* Centra horizontalmente */
+  width: 100%; /* Asegura que ocupe todo el ancho */
+}
+
+.contador {
+  display: flex;
+  align-items: center; /* Alinea los elementos horizontalmente */
+  gap: 15px; /* Espacio entre el contador y el botón */
+  margin-top: 10px; /* Espacio entre el título y el contador */
+  justify-content: space-between; /* Alinea el contador y el botón a la derecha */
+  width: 100%; /* Asegura que ocupe todo el ancho */
+}
+
+.mesa {
+  width: 400px;
+  background-color: #fffaf0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: sans-serif;
+}
+
+.mesa h3 {
+  margin: 0;
+  padding: 10px 15px;
+  background-color: red; /* naranja oscuro */
+  color: white;
+  font-size: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 8px 8px 0 0;
+}
+
+.pedido-container {
+  padding: 15px;
+  background-color: #fffaf0;
+}
+
+.pedido-container h4 {
+  margin: 0 0 10px 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: #4b2e0e;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pedido-items {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pedido-items li {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 0;
+  font-size: 14px;
+}
+
+.precio {
+  font-weight: bold;
+}
+
+hr {
+  margin: 10px 0;
+  border: none;
+  border-top: 1px solid #f1c171;
+}
+
+.pedido-total {
+  font-weight: bold;
+  text-align: right;
+  font-size: 16px;
+  color: #000000;
+}
+
+/*--------------------------------------*/
+/* Sección de mesas */
+.mesas-container {
+  display: grid;
+  gap: 1rem; /* Espacio entre las mesas */
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+
+  /* Ajustar el número de columnas según el tamaño de la pantalla */
+  @media (min-width: 992px) {
+    grid-template-columns: repeat(
+      3,
+      1fr
+    ); /* 3 columnas para pantallas grandes */
+  }
+  @media (max-width: 991px) and (min-width: 768px) {
+    grid-template-columns: repeat(
+      2,
+      1fr
+    ); /* 2 columnas para pantallas medianas */
+  }
+  @media (max-width: 767px) and (min-width: 600px) {
+    grid-template-columns: repeat(
+      2,
+      1fr
+    ); /* 2 columnas para pantallas pequeñas */
+  }
+  @media (max-width: 599px) {
+    grid-template-columns: 1fr; /* 1 columna para pantallas muy pequeñas */
+  }
+}
+
+.mesa {
+  background-color: #fff;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-align: center;
+
+  /* Eliminar el ancho fijo */
+  width: 100%; /* Ocupa todo el ancho de la columna */
+}
+
+.mesa-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: red;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+}
+
+.Cerrar-cuenta {
+  margin: 5px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: white;
+  color: black;
+  border: 2px solid white;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.pedido-container {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.pedido-items {
+  list-style-type: none;
+  padding: 0;
+}
+
+.pedido-items li {
+  margin-bottom: 5px;
+}
+
+.pedido-total {
+  font-weight: bold;
+  text-align: right;
+  font-size: 16px;
+  color: #000000;
+}
+
+/* TOTAL ARRIBA Y CERRA CUENTA fijo */
+
+.mesa-info {
+  display: flex;
+  align-items: center; /* Centra verticalmente */
+  gap: 10px; /* Espacio entre el número de mesa y el total */
+}
+
+.mesa-numero {
+  font-weight: bold;
+  color: white;
+}
+
+.total-acumulado {
+  font-weight: bold;
+  color: white;
+  margin-left: auto; /* Alinea el total a la derecha */
+}
+
+/* Botón "Cerrar Cuenta" */
+.cerrar-cuenta {
+  margin: 5px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: white;
+  color: black;
+  border: 2px solid white;
+  font-size: 13px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.cerrar-cuenta:hover {
+  background-color: #ff4d4d;
+  transform: scale(1.05);
+}
+
+.cerrar-cuenta:active {
+  transform: scale(0.95);
+}
+
+/* Contenedor de pedidos */
+.pedido-list {
+  max-height: 200px; /* Altura máxima para activar el scroll */
+  overflow-y: auto; /* Scroll vertical */
+  margin-bottom: 10px;
+}
+
+.pedido-items {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pedido-items li {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 0;
+  font-size: 14px;
+  border-bottom: 1px solid #ddd;
+  align-items: center;
+}
+
+.pedido-items li:last-child {
+  border-bottom: none;
+}
+
+.precio {
+  font-weight: bold;
+}
+
+.pedido-total {
+  font-weight: bold;
+  text-align: right;
+  font-size: 16px;
+  color: #000000;
+}
+
+.cerrar-cuenta {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.cerrar-cuenta:hover {
+  background-color: #ff4d4d;
+  transform: scale(1.05);
+}
+
+.cerrar-cuenta:active {
+  transform: scale(0.95);
+}
+
+/* SCROLL */
+.pedido-container {
+  .pedido-container {
+    max-height: 300px; /* Ajusta esta altura según tus necesidades */
+    overflow-y: auto; /* Permite desplazamiento vertical */
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+  }
+}
+
+.pedido-hora {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.pedido-items {
+  list-style-type: none;
+  padding: 0;
+}
+
+.mesas-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.mesa {
+  background-color: #fff;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden; /* Evita que las mesas se expandan más allá del contenido */
+  max-height: 500px; /* Asegura una altura máxima para las mesas */
+}
+
+.pedido-container {
+  max-height: 300px; /* Establece una altura máxima para los pedidos */
+  overflow-y: auto; /* Solo habilitar scroll si hay contenido */
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}
+
+.mesa-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: red;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+}
+
+.total-acumulado {
+  font-weight: bold;
+  color: white;
+  margin-left: auto;
+}
+
+.pedido-items {
+  list-style-type: none;
+  padding: 0;
+}
+
+.pedido-hora {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.pedido-list {
+  max-height: 200px; /* Establece un límite de altura para los ítems */
+  overflow-y: auto; /* Activa el scroll solo si hay más contenido */
+}
+.pedido-item {
+  margin-bottom: 15px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.pedido-hora {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espacio entre la hora y el checkbox */
+}
+
+.pedido-items {
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 10px;
+}
+
+.pedido-items li {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.pedido-total {
+  font-weight: bold;
+  margin-top: 10px;
+  text-align: right;
+}
+
+.enviado-checkbox {
+  margin-left: 10px;
+}
+
+.pedido-item label {
+  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.control-panel {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Espacio entre los elementos */
+}
+
+.tiempo {
+  font-weight: bold;
+  margin: 5px;
+}
+.historial-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.historial-lista {
+  margin: 10px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.historial-lista li {
+  margin-bottom: 15px;
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.pedido-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 8px;
+}
+
+.btn-enviado {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-enviado:hover {
+  background-color: #45a049;
+}
+
+/* Estilos para el historial de pedidos */
+.historial-modal .modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 90%;
+  max-height: 90%;
+  overflow-y: auto;
+  width: 600px;
+}
+
+.historial-modal h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+.historial-modal .pedido {
+  border-bottom: 1px solid #eee;
+  padding: 10px 0;
+  margin-bottom: 10px;
+}
+
+.historial-modal button {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+.status-container {
+  display: flex;
+  gap: 10px;
+  align-items: center; /* Alinear verticalmente los elementos */
+}
+
+.historial-mesa-btn {
+  gap: 20px;
+  background: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+  font-size: 12px;
+  margin-top: 8px;
+}
+
+.historial-mesa-btn:hover {
+  background-color: #45a049;
+}
+
+.mesa-status {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+  padding: 4px 8px;
+  background-color: #ffebee;
+  border-radius: 12px;
+  font-size: 12px;
+  color: #d32f2f;
+  display: inline-block;
+}
+
+.forma_de_pago {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+  padding: 4px 8px;
+  background-color: #ffebee;
+  border-radius: 12px;
+  font-size: 12px;
+  color: #d32f2f;
+  display: inline-block;
+}
+
+.status_pago {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+  padding: 4px 8px;
+  background-color: #ffebee;
+  border-radius: 12px;
+  font-size: 12px;
+  color: #d32f2f;
+  display: inline-block;
+}
+
+/* Estilos para los pedidos en el historial */
+.pedido-historico {
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.pedido-historico:last-child {
+  border-bottom: none;
+}
+
+.fecha-pedido {
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.total-pedido-historico {
+  font-weight: bold;
+  margin-top: 10px;
+  text-align: right;
+  color: #2c3e50;
+}
+
+/* Botón de cerrar */
+.historial-modal button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
+  display: block;
+  width: 100%;
+}
+
+.historial-modal button:hover {
+  background-color: #c0392b;
+}
