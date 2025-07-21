@@ -41,7 +41,7 @@ const flowConfirmacionSi = addKeyword(["sí", "si", "SI"])
 
       console.log("Payload que se enviará:", orderPayload);
 
-      await axios.post("http://localhost:8080/api/back-whatsapp-qr-app/order", orderPayload);
+      await axios.post("https://arqmv-module-back-whatsapp-qr-app-backend.onrender.com/api/back-whatsapp-qr-app/order", orderPayload);
       console.log("✅ Pedido enviado al endpoint externo:", orderPayload);
     } catch (error) {
       console.error("❌ Error al enviar el pedido al endpoint externo:", error.message);

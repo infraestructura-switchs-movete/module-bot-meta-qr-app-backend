@@ -26,8 +26,8 @@ const flowLlamarMesero = addKeyword(["📞 Mesero"])
         //tableId: mesa,
         //status: 1
       //};
-      //const response = await axios.post("http://localhost:8080/waitercall", waiterPayload);
-      const response = await axios.post(`http://localhost:8080/api/back-whatsapp-qr-app/restauranttable/change/status-requesting-service?tableNumber=${mesa}`);
+      //const response = await axios.post("https://arqmv-module-back-whatsapp-qr-app-backend.onrender.com/waitercall", waiterPayload);
+      const response = await axios.post(`https://arqmv-module-back-whatsapp-qr-app-backend.onrender.com/api/back-whatsapp-qr-app/restauranttable/change/status-requesting-service?tableNumber=${mesa}`);
       console.log("Respuesta waiter call:", response.data);
 
       if (io && typeof io.emit === "function") {
