@@ -4,7 +4,7 @@ import axios from 'axios';
 export const cambiarEstadoMesa = async (tableNumber: number): Promise<any> => {
   try {
     const response = await axios.post(
-      `http://localhost:8080/api/back-whatsapp-qr-app/restauranttable/change/status-ocuped`,
+      `https://arqmv-module-back-whatsapp-qr-app-backend.onrender.com/api/back-whatsapp-qr-app/restauranttable/change/status-ocuped`,
       {}, 
       {
         params: { tableNumber },
@@ -24,7 +24,7 @@ export const cambiarEstadoMesa = async (tableNumber: number): Promise<any> => {
 export const cambiarEstadoMesaLibre = async (tableNumber: number): Promise<any> => {
   try {
     const response = await axios.post(
-      `http://localhost:8080/api/back-whatsapp-qr-app/restauranttable/change/status-free`,
+      `https://arqmv-module-back-whatsapp-qr-app-backend.onrender.com/api/back-whatsapp-qr-app/restauranttable/change/status-free`,
       {}, 
       {
         params: { tableNumber },
