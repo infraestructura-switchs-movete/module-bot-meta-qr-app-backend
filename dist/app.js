@@ -241,8 +241,8 @@ const flowLlamarMesero = addKeyword(["📞 Mesero"])
         //tableId: mesa,
         //status: 1
       //};
-      //const response = await axios.post("http://localhost:8080/waitercall", waiterPayload);
-      const response = await axios.post(`http://localhost:8080/api/back-whatsapp-qr-app/restauranttable/change/status-requesting-service?tableNumber=${mesa}`);
+      //const response = await axios.post("https://arqmv-module-back-whatsapp-qr-app-backend.onrender.com/waitercall", waiterPayload);
+      const response = await axios.post(`https://arqmv-module-back-whatsapp-qr-app-backend.onrender.com/api/back-whatsapp-qr-app/restauranttable/change/status-requesting-service?tableNumber=${mesa}`);
       console.log("Respuesta waiter call:", response.data);
 
       if (io && typeof io.emit === "function") {
@@ -324,7 +324,7 @@ const flowOpciones = addKeyword("menu_principal").addAnswer(
 
 const cambiarEstadoMesa = async (tableNumber) => {
     try {
-        const response = await axios.post(`http://localhost:8080/api/back-whatsapp-qr-app/restauranttable/change/status-ocuped`, {}, {
+        const response = await axios.post(`https://arqmv-module-back-whatsapp-qr-app-backend.onrender.com/api/back-whatsapp-qr-app/restauranttable/change/status-ocuped`, {}, {
             params: { tableNumber },
             headers: {
                 'Content-Type': 'application/json'
@@ -340,7 +340,7 @@ const cambiarEstadoMesa = async (tableNumber) => {
 };
 const cambiarEstadoMesaLibre = async (tableNumber) => {
     try {
-        const response = await axios.post(`http://localhost:8080/api/back-whatsapp-qr-app/restauranttable/change/status-free`, {}, {
+        const response = await axios.post(`https://arqmv-module-back-whatsapp-qr-app-backend.onrender.com/api/back-whatsapp-qr-app/restauranttable/change/status-free`, {}, {
             params: { tableNumber },
             headers: {
                 'Content-Type': 'application/json'
@@ -776,7 +776,7 @@ const flowConfirmacionSi = addKeyword(["sí", "si", "SI"])
 
       console.log("Payload que se enviará:", orderPayload);
 
-      await axios.post("http://localhost:8080/api/back-whatsapp-qr-app/order", orderPayload);
+      await axios.post("https://arqmv-module-back-whatsapp-qr-app-backend.onrender.com/api/back-whatsapp-qr-app/order", orderPayload);
       console.log("✅ Pedido enviado al endpoint externo:", orderPayload);
     } catch (error) {
       console.error("❌ Error al enviar el pedido al endpoint externo:", error.message);
