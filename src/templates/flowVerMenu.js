@@ -2,7 +2,7 @@ import { addKeyword } from "@builderbot/bot";
 import { userState } from "./flowMenuInicio";
 import {encryptPhoneNumber} from "../utils/encypt"
 
-const MENU_URL = "http://localhost:5174";
+const MENU_URL = "http://localhost:5175";
 
 export const flowVerMenu = addKeyword(["🍽️ Ver Menú"]).addAction(
   async (ctx, { flowDynamic, gotoFlow, endFlow }) => {
