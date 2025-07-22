@@ -8,19 +8,19 @@ import { fileURLToPath } from "url";
 import { provider } from "./provider/index.js";
 import moment from 'moment-timezone';
 
-// Simular __dirname en módulos ES
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Inicializar Express
+
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
-// Variables globales
-let userState = {}; // Estado de los usuarios
-let globalOrderData = {}; // Datos de los pedidos
+
+let userState = {}; 
+let globalOrderData = {}; 
 let io;
 
 // ──────────── API WEBHOOK EXPRESS ────────────
@@ -61,7 +61,7 @@ app.post("/order-complete", async (req, res) => {
 
     const resumenPedido = `🍔 *Resumen de tu pedido:*\n${lista}\n\nTotal: $${total.toLocaleString()}\n\n✅ ¿Confirmas tu pedido?\n(Responde "sí" o "no")`;
 
-    // Enviar mensaje de confirmación
+
     if (!provider) {
       console.error("Error: instancia de proveedor no disponible");
       return res.status(500).send("Error interno");
@@ -76,7 +76,7 @@ app.post("/order-complete", async (req, res) => {
 });
 
 
-// Ruta para consultar el estado del pedido
+
 app.get("/order-status", (req, res) => {
   const phone = req.query.phone;
   if (!phone) {
@@ -97,7 +97,7 @@ app.get("/order-status", (req, res) => {
   });
 });
 
-// Ruta para obtener todos los pedidos
+
 app.get("/all-orders", (req, res) => {
   const allOrders = Object.entries(globalOrderData).map(([phone, order]) => ({
     phone,
@@ -109,7 +109,7 @@ app.get("/all-orders", (req, res) => {
   res.json(allOrders);
 });
 
-// Añade esta ruta para la página de notificaciones
+
 app.get("/notificaciones", (req, res) => {
   const filePath = path.join(
     __dirname,
@@ -119,7 +119,7 @@ app.get("/notificaciones", (req, res) => {
   res.sendFile(filePath);
 });
 
-// Manejo de errores para Express
+
 app.use((err, req, res, next) => {
   console.error("Error en Express:", err);
   res.status(500).send("Error interno del servidor");
@@ -138,12 +138,11 @@ io.on("connection", (socket) => {
 });
 
 server.listen(4000, () => {
-  console.log("📡 Servidor escuchando en puerto 4008");
+  console.log("📡 Servidor escuchando en puerto 4000");
 });
 
 process.on('unhandledRejection', (reason, promise) => {
   console.error('Unhandled Rejection at:', promise, 'reason:', reason);
 });
 
-// Exporta `io` y otras variables necesarias
 export { io, server, userState, globalOrderData };

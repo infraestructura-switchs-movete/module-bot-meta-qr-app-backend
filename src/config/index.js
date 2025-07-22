@@ -10,6 +10,6 @@ export const config = {
   numberId: process.env.NUMBERID,
   verifyToken: process.env.VERIFYTOKEN,
   version: "v22.0",
-  webhookUrl: "https://module-bot-meta-qr-app-backend.onrender.com",
+  webhookUrl: "https://module-bot-meta-qr-app-backend-2.onrender.com",
   encryptToken: process.env.ENCRYPT_TOKEN,
 };
