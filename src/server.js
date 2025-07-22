@@ -136,8 +136,8 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(PORT1, () => {
-  console.log(`📡 Servidor escuchando en puerto ${PORT1}`);
+server.listen(PORT, () => {
+  console.log(`📡 Servidor escuchando en puerto ${PORT}`);
 });
 
 process.on('unhandledRejection', (reason, promise) => {
