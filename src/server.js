@@ -136,8 +136,8 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(4000, () => {
-  console.log("📡 Servidor escuchando en puerto 4000");
+server.listen(PORT1, () => {
+  console.log(`📡 Servidor escuchando en puerto ${PORT1}`);
 });
 
 process.on('unhandledRejection', (reason, promise) => {
