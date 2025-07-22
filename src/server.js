@@ -137,8 +137,11 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(4000, () => {
-  console.log("📡 Servidor escuchando en puerto 4000");
+// Usa el puerto dinámico proporcionado por Render o un puerto predeterminado localmente
+const PORT = process.env.PORT || 4000; // Render asignará el puerto automáticamente
+
+server.listen(PORT, () => {
+  console.log(`📡 Servidor escuchando en el puerto ${PORT}`);
 });
 
 process.on('unhandledRejection', (reason, promise) => {
