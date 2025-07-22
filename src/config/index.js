@@ -12,4 +12,5 @@ export const config = {
   version: "v22.0",
   webhookUrl: "https://module-bot-meta-qr-app-backend-2.onrender.com",
   encryptToken: process.env.ENCRYPT_TOKEN,
+  //token2025: process.env.TOKEN_2025,
 };
