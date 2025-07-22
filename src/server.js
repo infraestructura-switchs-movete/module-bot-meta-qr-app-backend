@@ -24,8 +24,6 @@ let globalOrderData = {};
 let io;
 
 // ──────────── API WEBHOOK EXPRESS ────────────
-
-
 app.post("/order-complete", async (req, res) => {
   try {
     const { phone, items, total } = req.body;
@@ -99,6 +97,7 @@ app.get("/order-status", (req, res) => {
 
 
 app.get("/all-orders", (req, res) => {
+  console.log("orden");
   const allOrders = Object.entries(globalOrderData).map(([phone, order]) => ({
     phone,
     mesa: order.mesa,
@@ -137,11 +136,8 @@ io.on("connection", (socket) => {
   });
 });
 
-// Usa el puerto dinámico proporcionado por Render o un puerto predeterminado localmente
-const PORT = process.env.PORT || 4000; // Render asignará el puerto automáticamente
-
-server.listen(PORT, () => {
-  console.log(`📡 Servidor escuchando en el puerto ${PORT}`);
+server.listen(4000, () => {
+  console.log("📡 Servidor escuchando en puerto 4000");
 });
 
 process.on('unhandledRejection', (reason, promise) => {

@@ -26,6 +26,10 @@ ARG PORT=3008
 ENV PORT=$PORT
 EXPOSE 3008
 
+ARG PORT=4000
+ENV PORT=$PORT
+EXPOSE 4000
+
 COPY --from=builder /app/assets ./assets
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/*.json /app/*-lock.yaml ./
