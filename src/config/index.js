@@ -6,9 +6,10 @@ export const config = {
   PORT: process.env.PORT || 3008,
   provider: process.env.PROVIDER,
   // Meta
-   jwtToken: process.env.JWTTOKEN,
+  jwtToken: process.env.JWTTOKEN,
   numberId: process.env.NUMBERID,
   verifyToken: process.env.VERIFYTOKEN,
   version: "v22.0",
-   encryptToken: process.env.ENCRYPT_TOKEN,
+  webhookUrl: "https://module-bot-meta-qr-app-backend-2.onrender.com",
+  encryptToken: process.env.ENCRYPT_TOKEN,
 };

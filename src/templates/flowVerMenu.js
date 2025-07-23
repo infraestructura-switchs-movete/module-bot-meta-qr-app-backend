@@ -1,8 +1,8 @@
 import { addKeyword } from "@builderbot/bot";
-import { userState } from "./flowMenuInicio";
+import { userState } from "../utils/state";
 import {encryptPhoneNumber} from "../utils/encypt"
 
-const MENU_URL = "http://localhost:5174";
+const MENU_URL = "https://module-landing-page-qr-app-frontend-t0rn.onrender.com";
 
 export const flowVerMenu = addKeyword(["🍽️ Ver Menú"]).addAction(
   async (ctx, { flowDynamic, gotoFlow, endFlow }) => {

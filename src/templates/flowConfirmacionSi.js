@@ -1,7 +1,6 @@
 import { addKeyword } from "@builderbot/bot";
-import { io } from "../server";
-import { userState } from "./flowMenuInicio";
-import { globalOrderData } from "../server";
+import { userState } from "../utils/state";
+import { getSocketIO, globalOrderData,  } from "../utils/state";
 import { flowMeceroCerrar } from "./flowMeceroCerrar";
 import { flowVerMenu } from "./flowVerMenu";
 import {flowTipoDocumento} from "./flowTipoDocumento";
@@ -15,6 +14,7 @@ const flowConfirmacionSi = addKeyword(["sí", "si", "SI"])
     mesa = userState[ctx.from]?.mesa;
 
     // Emitir evento 'nuevo_pedido'
+    const io = getSocketIO();
     if (io) {
       io.emit("nuevo_pedido", {
         mesa: userState[ctx.from]?.mesa,

@@ -1,7 +1,7 @@
 import { addKeyword } from "@builderbot/bot";
 import { flowVerMenu } from "./flowVerMenu";
-import { userState } from "./flowMenuInicio";
-import { io } from "../server";
+import { userState } from "../utils/state";
+import { getSocketIO, globalOrderData,  } from "../utils/state";
 import { cambiarEstadoMesaLibre } from "../Services/Tableservice";
 
 let mesa;
@@ -20,6 +20,7 @@ const flowConfirmacionNo = addKeyword(["no", "n", "No"])
   .addAction(
     { capture: true },
     async (ctx, { flowDynamic, gotoFlow, endFlow }) => {
+      const io = getSocketIO();
       if (ctx.body === "🍽️ Ver Menú") {
         return gotoFlow(flowVerMenu); // Redirigir al flujo de ver menú
       } else if (ctx.body === "❌ Salir") {

@@ -1,6 +1,5 @@
 import { addKeyword } from "@builderbot/bot";
-import { io } from "../server";
-import { userState } from "./flowMenuInicio";
+import { getSocketIO, userState } from "../utils/state";
 import { flowCalificacion } from "./flowCalificacion";
 import { cambiarEstadoMesaLibre } from "../Services/Tableservice";
 
@@ -18,6 +17,7 @@ const flowPagoLocal = addKeyword(["🏠Pago local"]).addAction(
     }
 
     try {
+      const io = getSocketIO();
       if (io && typeof io.emit === "function") {
         io.emit("llamada_mesero", {
           mesa: mesa,

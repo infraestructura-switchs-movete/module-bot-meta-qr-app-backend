@@ -1,6 +1,5 @@
 import { addKeyword } from "@builderbot/bot";
-import { io } from "../server";
-import { userState } from "./flowMenuInicio"; // Importamos el userState compartido
+import { userState, getSocketIO } from "../utils/state";
 import { flowMenuInicio } from "./flowMenuInicio";
 import { flowLlamarMesero } from "./flowLlamarMesero";
 import { flowVerMenu } from "./flowVerMenu";

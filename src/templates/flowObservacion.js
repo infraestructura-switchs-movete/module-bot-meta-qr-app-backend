@@ -1,6 +1,5 @@
 import { addKeyword } from "@builderbot/bot";
-import { io } from "../server";
-import { userState } from "./flowMenuInicio";
+import { getSocketIO, userState } from "../utils/state";
 import { flowVerMenu } from "./flowVerMenu";
 import { flowFormasDePago } from "./flowFormasDePago";
 
@@ -18,6 +17,7 @@ const flowObservacion = addKeyword(["📞 observación"])
     }
 
     try {
+      const io = getSocketIO();
       if (io && typeof io.emit === "function") {
         io.emit("llamada_mesero", {
           mesa: mesa,
