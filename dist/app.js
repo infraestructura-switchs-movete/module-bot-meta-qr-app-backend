@@ -1,15 +1,15 @@
+import 'dotenv/config';
+import path, { join } from 'path';
 import { createProvider, addKeyword, createFlow, createBot, MemoryDB } from '@builderbot/bot';
 import { MetaProvider } from '@builderbot/provider-meta';
-import 'dotenv/config';
-import express from 'express';
-import cors from 'cors';
-import http from 'http';
-import { Server } from 'socket.io';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import moment from 'moment-timezone';
 import * as crypto from 'crypto';
 import axios from 'axios';
+import express from 'express';
+import http from 'http';
+import cors from 'cors';
+import { Server } from 'socket.io';
+import { fileURLToPath } from 'url';
+import moment from 'moment-timezone';
 
 const config = {
   // Agregar todas las variables de entorno
@@ -36,144 +36,13 @@ const provider = createProvider(MetaProvider, {
   version: config.version,
 });
 
-// server.js
-
-// Simular __dirname en módulos ES
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// Inicializar Express
-const app = express();
-app.use(cors());
-app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
-
-// Variables globales
-let userState$1 = {}; // Estado de los usuarios
-let globalOrderData = {}; // Datos de los pedidos
-let io;
-
-// ──────────── API WEBHOOK EXPRESS ────────────
-
-
-app.post("/order-complete", async (req, res) => {
-  try {
-    const { phone, items, total } = req.body;
-
-    const timestamp = new Date('2025-07-01T05:59:55.575Z');
-    const formattedTime = moment(timestamp).tz('America/Bogota').format('YYYY-MM-DD HH:mm:ss');
-    console.log(formattedTime);
-
-    console.log("Datos recibidos:", { phone, items, total, timestamp: formattedTime });
-    if (!phone || !Array.isArray(items) || !items.length) {
-      return res.status(400).send("Faltan datos");
-    }
-
-    const cleanedPhone = phone.replace(/\D/g, "").replace(/^0+/, "");
-    if (!cleanedPhone) {
-      return res.status(400).send("Número de teléfono inválido");
-    }
-
-    const mesa = userState$1[cleanedPhone]?.mesa || "desconocida";
-    globalOrderData[cleanedPhone] = {
-      mesa,
-      items,
-      total,
-      timestamp: formattedTime,
-    };
-    userState$1[cleanedPhone] = userState$1[cleanedPhone] || {};
-    userState$1[cleanedPhone].estado = "esperando_confirmacion";
-
-    const lista = items.map((i) => {
-      const precioUnitario = i.price ? `$${i.price.toLocaleString()}` : "Precio no disponible";
-      return `• ${i.qty} × ${i.name} (${precioUnitario})`;
-    }).join("\n");
-
-    const resumenPedido = `🍔 *Resumen de tu pedido:*\n${lista}\n\nTotal: $${total.toLocaleString()}\n\n✅ ¿Confirmas tu pedido?\n(Responde "sí" o "no")`;
-
-    // Enviar mensaje de confirmación
-    if (!provider) {
-      console.error("Error: instancia de proveedor no disponible");
-      return res.status(500).send("Error interno");
-    }
-
-    await provider.sendText(`${cleanedPhone}@s.whatsapp.net`, resumenPedido);
-    res.sendStatus(200);
-  } catch (error) {
-    console.error("Error en webhook order-complete:", error);
-    res.status(500).send("Error interno");
-  }
-});
-
-
-// Ruta para consultar el estado del pedido
-app.get("/order-status", (req, res) => {
-  const phone = req.query.phone;
-  if (!phone) {
-    return res.status(400).json({ error: "Parámetro phone requerido" });
-  }
-  const order = globalOrderData[phone];
-  if (!order) {
-    return res
-      .status(404)
-      .json({ error: "No existe pedido para ese teléfono" });
-  }
-  return res.json({
-    mesa: order.mesa || "no registrada",
-    phone,
-    items: order.items,
-    total: order.total,
-    timestamp: order.timestamp,
-  });
-});
-
-// Ruta para obtener todos los pedidos
-app.get("/all-orders", (req, res) => {
-  const allOrders = Object.entries(globalOrderData).map(([phone, order]) => ({
-    phone,
-    mesa: order.mesa,
-    items: order.items,
-    total: order.total,
-    timestamp: order.timestamp,
-  }));
-  res.json(allOrders);
-});
-
-// Añade esta ruta para la página de notificaciones
-app.get("/notificaciones", (req, res) => {
-  const filePath = path.join(
-    __dirname,
-    "public/components",
-    "NotificacionPanel.html"
-  );
-  res.sendFile(filePath);
-});
-
-// Manejo de errores para Express
-app.use((err, req, res, next) => {
-  console.error("Error en Express:", err);
-  res.status(500).send("Error interno del servidor");
-});
-
-// ──────────── INICIAR SERVIDOR ────────────
-const server = http.createServer(app);
-io = new Server(server);
-
-io.on("connection", (socket) => {
-  console.log("💻 Personal conectado al sistema de notificaciones");
-
-  socket.on("disconnect", () => {
-    console.log("❌ Personal desconectado del sistema de notificaciones");
-  });
-});
-
-server.listen(4000, () => {
-  console.log("📡 Servidor escuchando en puerto 4008");
-});
-
-process.on('unhandledRejection', (reason, promise) => {
-  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
-});
+let io$1 = null;
+const setSocketIO = (serverIO) => {
+    io$1 = serverIO;
+};
+const getSocketIO = () => io$1;
+const userState = {};
+const globalOrderData = {};
 
 const secretKey = config.encryptToken;
 const toBase64URL = (base64) => {
@@ -200,7 +69,7 @@ const encryptPhoneNumber = (phoneNumber) => {
     return `${ivBase64URL}.${encryptedBase64URL}`;
 };
 
-const MENU_URL = "http://localhost:5175";
+const MENU_URL = "https://module-landing-page-qr-app-frontend-t0rn.onrender.com";
 
 const flowVerMenu = addKeyword(["🍽️ Ver Menú"]).addAction(
   async (ctx, { flowDynamic, gotoFlow, endFlow }) => {
@@ -222,12 +91,15 @@ const flowVerMenu = addKeyword(["🍽️ Ver Menú"]).addAction(
 );
 
 const flowLlamarMesero = addKeyword(["📞 Mesero"])
-  .addAction(async (ctx, { flowDynamic, gotoFlow }) => {
+  .addAction(async (ctx, { flowDynamic }) => {
     let mesa = ctx.mesa;
+
+    // Verifica si mesa está guardada en el estado
     if (!mesa && userState[ctx.from]) {
       mesa = userState[ctx.from].mesa;
       ctx.mesa = mesa;
     }
+
     if (!mesa) {
       await flowDynamic(
         "❌ No se encontró tu número de mesa. Por favor inicia nuevamente."
@@ -236,15 +108,14 @@ const flowLlamarMesero = addKeyword(["📞 Mesero"])
     }
 
     try {
-      //console.log("tableId:", mesa);
-      //const waiterPayload = {
-        //tableId: mesa,
-        //status: 1
-      //};
-      //const response = await axios.post("https://arqmv-module-back-whatsapp-qr-app-backend.onrender.com/waitercall", waiterPayload);
-      const response = await axios.post(`https://arqmv-module-back-whatsapp-qr-app-backend.onrender.com/api/back-whatsapp-qr-app/restauranttable/change/status-requesting-service?tableNumber=${mesa}`);
+      // Llamada al backend externo
+      const response = await axios.post(
+        `https://arqmv-module-back-whatsapp-qr-app-backend.onrender.com/api/back-whatsapp-qr-app/restauranttable/change/status-requesting-service?tableNumber=${mesa}`
+      );
       console.log("Respuesta waiter call:", response.data);
 
+      // Emitimos evento vía Socket.IO
+      const io = getSocketIO();
       if (io && typeof io.emit === "function") {
         io.emit("llamada_mesero", {
           mesa: mesa,
@@ -269,37 +140,23 @@ const flowLlamarMesero = addKeyword(["📞 Mesero"])
       await flowDynamic("❌ Error al llamar al mesero. Intenta nuevamente.");
     }
   })
-  .addAction(async (ctx, { flowDynamic, gotoFlow }) => {
-    let mesa = ctx.mesa;
-    if (!mesa && userState[ctx.from]) {
-      mesa = userState[ctx.from].mesa;
-      ctx.mesa = mesa;
-    }
-    console.log("Mesa actual ocupada", mesa);
-
-    if (!mesa) {
-      await flowDynamic(
-        "❌ No se encontró tu número de mesa. Por favor inicia nuevamente."
-      );
-      return;
-    }
-    }
-  )
 
   .addAction(
-  { capture: true },
-  async (ctx, { flowDynamic, gotoFlow }) => {
-    const respuesta = ctx.body?.trim();
-    if (respuesta === "🍽️ Ver Menú") {
-      return gotoFlow(flowVerMenu);
+    { capture: true },
+    async (ctx, { flowDynamic, gotoFlow }) => {
+      const respuesta = ctx.body?.trim();
+
+      if (respuesta === "🍽️ Ver Menú") {
+        return gotoFlow(flowVerMenu);
+      }
+      if (respuesta === "🚪 Finalizar") {
+        await flowDynamic("¡Gracias por tu visita! Si necesitas algo más, escribe *hola*.");
+        return;
+      }
+
+      await flowDynamic("❌ Por favor, selecciona una opción válida.");
     }
-    if (respuesta === "🚪 Finalizar") {
-      await flowDynamic("¡Gracias por tu visita! Si necesitas algo más, escribe *hola*.");
-      return;
-    }
-    // Puedes manejar otras respuestas aquí si lo deseas
-  }
-);
+  );
 
 const flowOpciones = addKeyword("menu_principal").addAnswer(
   "⬇️ *¿Qué deseas hacer?* ",
@@ -355,15 +212,13 @@ const cambiarEstadoMesaLibre = async (tableNumber) => {
     }
 };
 
-const userState = {};
-
 const flowMenuInicio = addKeyword("Hola estoy en la mesa")
   .addAction(async (ctx, { flowDynamic, gotoFlow }) => {
-    const mesaRegex = /^Hola estoy en la mesa\s+(\d+)$/i; 
-    const match = ctx.body.match(mesaRegex); 
+    const mesaRegex = /^Hola estoy en la mesa\s+(\d+)$/i;
+    const match = ctx.body.match(mesaRegex);
 
     if (match) {
-      const mesa = parseInt(match[1], 10); 
+      const mesa = parseInt(match[1], 10);
 
       if (mesa >= 1 && mesa <= 50) {
         const result = await cambiarEstadoMesa(mesa);
@@ -372,29 +227,25 @@ const flowMenuInicio = addKeyword("Hola estoy en la mesa")
         if (!userState[ctx.from]) userState[ctx.from] = {};
         userState[ctx.from].mesa = mesa;
 
-        if (result) {
-
+        const io = getSocketIO();
+        if (io && typeof io.emit === "function") {
           io.emit("mesa_ocupada", {
-          mesa: mesa,
-          telefono: ctx.from,
-          estado: result, 
-          timestamp: new Date(),
-        });
-
-        
-          await flowDynamic(`*👋 Bienvenid@ Mesa #${mesa} 🪑*\n
-            *El Chuzo de Iván Parrilla*🍔🌭  
-            A continuación, encontrarás 
-            nuestro menú con opciones 
-            para todos los gustos.  
-            ¡Haz clic en el botón para 
-            ver lo que tenemos preparado 
-            para ti! 🍽️`);
-          return gotoFlow(flowOpciones);
+            mesa: mesa,
+            telefono: ctx.from,
+            estado: result,
+            timestamp: new Date(),
+          });
         }
 
-        
-
+        await flowDynamic(`*👋 Bienvenid@ Mesa #${mesa} 🪑*\n
+          *El Chuzo de Iván Parrilla*🍔🌭  
+          A continuación, encontrarás 
+          nuestro menú con opciones 
+          para todos los gustos.  
+          ¡Haz clic en el botón para 
+          ver lo que tenemos preparado 
+          para ti! 🍽️`);
+        return gotoFlow(flowOpciones);
       } else {
         await flowDynamic(
           "❌ Mesa no válida. Por favor, elige un número entre 1 y 50."
@@ -402,7 +253,6 @@ const flowMenuInicio = addKeyword("Hola estoy en la mesa")
         return gotoFlow(flowMenuInicio);
       }
     } else {
-      // Si el mensaje no coincide con el formato esperado
       await flowDynamic(
         "❌ Formato incorrecto. Por favor, envía un mensaje como: 'Hola estoy en la mesa X' (donde X es un número entre 1 y 50)."
       );
@@ -447,13 +297,13 @@ const flowCalificacion = addKeyword("calificacion").addAnswer(
   }
 );
 
-let mesa$3;
+let mesa$4;
 
 const flowPagoLocal = addKeyword(["🏠Pago local"]).addAction(
   async (ctx, { flowDynamic, gotoFlow }) => {
-    mesa$3 = userState[ctx.from]?.mesa;
+    mesa$4 = userState[ctx.from]?.mesa;
 
-    if (!mesa$3) {
+    if (!mesa$4) {
       await flowDynamic(
         "❌ No se encontró tu número de mesa. Por favor inicia nuevamente."
       );
@@ -461,16 +311,17 @@ const flowPagoLocal = addKeyword(["🏠Pago local"]).addAction(
     }
 
     try {
+      const io = getSocketIO();
       if (io && typeof io.emit === "function") {
         io.emit("llamada_mesero", {
-          mesa: mesa$3,
+          mesa: mesa$4,
           telefono: ctx.from,
           timestamp: new Date(),
         });
       }
 
       await flowDynamic([
-        `🏃‍♂️ *Mesero en camino mesa* (#${mesa$3})`,
+        `🏃‍♂️ *Mesero en camino mesa* (#${mesa$4})`,
          {
         body: "⭐ *¿Deseas calificar tu atención?*",
         buttons: [
@@ -495,7 +346,7 @@ const flowPagoLocal = addKeyword(["🏠Pago local"]).addAction(
         return gotoFlow(flowCalificacion);
       } else if (ctx.body === "🚫 No") {
         await flowDynamic("*¡👋 Gracias por tu visita vuelve pronto!* ");
-        await cambiarEstadoMesaLibre(mesa$3);
+        await cambiarEstadoMesaLibre(mesa$4);
         return endFlow();
       } else
       await flowDynamic("❌  Por favor, elige una opción valida.");
@@ -517,6 +368,8 @@ const flowTransferencia = addKeyword(["💳Transferencia"]).addAnswer(
   
 );
 
+let mesa$3;
+
 const flowFormasDePago = addKeyword(["🍽️ Conforme"]).addAnswer(
   "💵 *Formas de pago*",
   {
@@ -526,11 +379,12 @@ const flowFormasDePago = addKeyword(["🍽️ Conforme"]).addAnswer(
 
   async (ctx, { flowDynamic, gotoFlow }) => {
     const userResponse = ctx.body;
-    userState[ctx.from]?.mesa;
+    mesa$3 = userState[ctx.from]?.mesa;
 
+    const io = getSocketIO();
     if (io) {
       io.emit("formas_de_pago", {
-        mesa: userState[ctx.from]?.mesa,
+        mesa: mesa$3,
         items: globalOrderData[ctx.from]?.items,
         total: globalOrderData[ctx.from]?.total,
         telefono: ctx.from,
@@ -538,17 +392,18 @@ const flowFormasDePago = addKeyword(["🍽️ Conforme"]).addAnswer(
     }
 
     if (userResponse === "💳Transferencia") {
-      await flowDynamic( `💳 *Plataformas de pago disponibles:*
-       *Nequi:* 3015879572 
-       *Daviplata:* 3136627797  
-  
-      ✅ Puedes usar cualquiera de estas opciones para realizar tu pago de forma rápida y segura.`);
+      await flowDynamic(
+        `💳 *Plataformas de pago disponibles:*\n` +
+        `*Nequi:* 3015879572\n` +
+        `*Daviplata:* 3136627797\n\n` +
+        `✅ Puedes usar cualquiera de estas opciones para realizar tu pago de forma rápida y segura.`
+      );
       return gotoFlow(flowCalificacion);
     } else if (userResponse === "💵Efectivo") {
       return gotoFlow(flowPagoLocal);
     } else {
       await flowDynamic("❌ Por favor, elige una opción válida.");
-      return gotoFlow(flowFormasDePago); // Regresa al flujo de cerrar cuenta para que elija de nuevo
+      return gotoFlow(flowFormasDePago);
     }
   }
 );
@@ -567,6 +422,7 @@ const flowObservacion = addKeyword(["📞 observación"])
     }
 
     try {
+      const io = getSocketIO();
       if (io && typeof io.emit === "function") {
         io.emit("llamada_mesero", {
           mesa: mesa$2,
@@ -708,6 +564,8 @@ const flowMeceroCerrar = addKeyword(["📞 Mesero"])
     }
 
     try {
+            const io = getSocketIO();
+
       if (io && typeof io.emit === "function") {
         io.emit("llamada_mesero", {
           mesa: mesa$1,
@@ -750,6 +608,7 @@ const flowConfirmacionSi = addKeyword(["sí", "si", "SI"])
     userState[ctx.from]?.mesa;
 
     // Emitir evento 'nuevo_pedido'
+    const io = getSocketIO();
     if (io) {
       io.emit("nuevo_pedido", {
         mesa: userState[ctx.from]?.mesa,
@@ -833,6 +692,7 @@ const flowConfirmacionNo = addKeyword(["no", "n", "No"])
   .addAction(
     { capture: true },
     async (ctx, { flowDynamic, gotoFlow, endFlow }) => {
+      const io = getSocketIO();
       if (ctx.body === "🍽️ Ver Menú") {
         return gotoFlow(flowVerMenu); // Redirigir al flujo de ver menú
       } else if (ctx.body === "❌ Salir") {
@@ -848,7 +708,7 @@ const flowConfirmacionNo = addKeyword(["no", "n", "No"])
     }
   );
 
-var tempplates = createFlow([
+var templates = createFlow([
   flowMenuInicio,
   flowVerMenu,
   flowLlamarMesero,
@@ -868,21 +728,82 @@ var tempplates = createFlow([
   flowTransferencia,
 ]);
 
-const PORT = config.PORT;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const PORT = process.env.PORT || 3000;
+const app = express();
+app.use(cors());
+app.use(express.json());
+app.use(express.static(join(__dirname, 'public')));
+app.get('/webhook', (req, res) => {
+    const mode = req.query['hub.mode'];
+    const token = req.query['hub.verify_token'];
+    const challenge = req.query['hub.challenge'];
+    if (mode === 'subscribe' && token === process.env.VERIFYTOKEN) {
+        return res.status(200).send(challenge);
+    }
+    else {
+        return res.sendStatus(403);
+    }
+});
+app.post('/webhook', (req, res) => {
+    console.log('📩 Webhook POST recibido:', JSON.stringify(req.body, null, 2));
+    return res.sendStatus(200);
+});
+app.post('/order-complete', async (req, res) => {
+    try {
+        const { phone, items, total } = req.body;
+        const timestamp = new Date();
+        const formattedTime = moment(timestamp).tz('America/Bogota').format('YYYY-MM-DD HH:mm:ss');
+        const cleanedPhone = phone.replace(/\D/g, '').replace(/^0+/, '');
+        const mesa = userState[cleanedPhone]?.mesa || 'desconocida';
+        globalOrderData[cleanedPhone] = {
+            mesa,
+            items,
+            total,
+            timestamp: formattedTime,
+        };
+        userState[cleanedPhone] = userState[cleanedPhone] || {};
+        userState[cleanedPhone].estado = 'esperando_confirmacion';
+        const lista = items.map((i) => `• ${i.qty} × ${i.name} ($${i.price})`).join('\n');
+        const resumen = `🍔 *Resumen de tu pedido:*\n${lista}\n\nTotal: $${total}\n\n✅ ¿Confirmas tu pedido?\n(Responde "sí" o "no")`;
+        await provider.sendText(`${cleanedPhone}@s.whatsapp.net`, resumen);
+        res.sendStatus(200);
+    }
+    catch (err) {
+        console.error(err);
+        res.status(500).send('Error interno');
+    }
+});
+const server = http.createServer(app);
+const io = new Server(server);
+setSocketIO(io);
+io.on('connection', (socket) => {
+    console.log('🔌 WebSocket conectado');
+});
 const main = async () => {
     try {
-        console.log("🤖 Iniciando el bot...");
-        const { handleCtx, httpServer } = await createBot({
-            flow: tempplates,
-            provider: provider,
+        console.log('🤖 Iniciando bot...');
+        await createBot({
+            flow: templates,
+            provider,
             database: new MemoryDB(),
+            server,
         });
-        console.log("🚀 Bot iniciado correctamente.");
-        httpServer(PORT);
+        app.get('/status', (req, res) => {
+            res.json({
+                success: true,
+                bot: 'Builderbot activo',
+                express: 'Servidor Express funcionando correctamente ✅',
+                timestamp: new Date().toISOString(),
+            });
+        });
+        server.listen(PORT, () => {
+            console.log(`🚀 Servidor y bot corriendo en puerto ${PORT}`);
+        });
     }
     catch (error) {
-        console.error("Error al iniciar el bot:", error);
-        process.exit(1);
+        console.error('❌ Error al iniciar el bot:', error);
     }
 };
 main();
