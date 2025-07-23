@@ -95,6 +95,15 @@ const main = async () => {
       database: new Database(),
       server, // reusar el servidor que creaste arriba
     }as any);
+
+  app.get('/status', (req, res) => {
+  res.json({
+    success: true,
+    bot: 'Builderbot activo',
+    express: 'Servidor Express funcionando correctamente ✅',
+    timestamp: new Date().toISOString(),
+  });
+});
     server.listen(PORT, () => {
       console.log(`🚀 Servidor y bot corriendo en puerto ${PORT}`);
     });
