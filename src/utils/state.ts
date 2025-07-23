@@ -7,4 +7,7 @@ export const setSocketIO = (serverIO: SocketIO) => {
 export const getSocketIO = () => io;
 
 export const userState: Record<string, { mesa?: number; estado?: string }> = {};
-export const globalOrderData: Record<string, { items: any[]; total: number }> = {};
+export const globalOrderData: Record<
+  string,
+  { mesa: number | string; items: any[]; total: number; timestamp: string }
+> = {};
