@@ -50,28 +50,31 @@ app.post('/webhook', (req, res) => {
 app.post('/order-complete', async (req, res) => {
   try {
     const { phone, items, total } = req.body;
+    console.log("✅ POST recibido en /order-complete:", req.body);
+
     const timestamp = new Date();
     const formattedTime = moment(timestamp).tz('America/Bogota').format('YYYY-MM-DD HH:mm:ss');
     const cleanedPhone = phone.replace(/\D/g, '').replace(/^0+/, '');
-    const mesa = userState[cleanedPhone]?.mesa || 'desconocida';
 
-    globalOrderData[cleanedPhone] = {
-      mesa,
-      items,
-      total,
-      timestamp: formattedTime,
-    };
+    const mesa = userState[cleanedPhone]?.mesa || 'desconocida';
+    console.log("ℹ️ Mesa asociada:", mesa);
+
+    globalOrderData[cleanedPhone] = { mesa, items, total, timestamp: formattedTime };
     userState[cleanedPhone] = userState[cleanedPhone] || {};
     userState[cleanedPhone].estado = 'esperando_confirmacion';
 
     const lista = items.map((i) => `• ${i.qty} × ${i.name} ($${i.price})`).join('\n');
     const resumen = `🍔 *Resumen de tu pedido:*\n${lista}\n\nTotal: $${total}\n\n✅ ¿Confirmas tu pedido?\n(Responde "sí" o "no")`;
 
-    await provider.sendText(`${cleanedPhone}@s.whatsapp.net`, resumen);
-    res.sendStatus(200);
+    await Promise.race([
+      provider.sendText(`${cleanedPhone}@s.whatsapp.net`, resumen),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout al enviar mensaje')), 7000))
+    ]);
+
+    res.status(200).send({ success: true });
   } catch (err) {
-    console.error(err);
-    res.status(500).send('Error interno');
+    console.error("❌ Error en /order-complete:", err);
+    res.status(500).send({ error: "Error interno", detail: err.message });
   }
 });
 
