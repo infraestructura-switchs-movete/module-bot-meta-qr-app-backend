@@ -1,5 +1,5 @@
 import { addKeyword } from "@builderbot/bot";
-import { userState } from "./flowMenuInicio"; // Importamos el userState compartido
+import { userState } from "../utils/state"; // Importamos el userState compartido
 import { cambiarEstadoMesaLibre } from "../Services/Tableservice";
 
 

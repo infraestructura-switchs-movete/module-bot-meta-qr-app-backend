@@ -1,5 +1,5 @@
 import { addKeyword } from "@builderbot/bot";
-import { userState } from "./flowMenuInicio"; // Importamos el userState compartido
+import { userState } from "../utils/state";// Importamos el userState compartido
 import { flowNombre } from "./flowNombre"; 
 
 export const flowOpcionDocumento = addKeyword("DigitarNumero").addAnswer(

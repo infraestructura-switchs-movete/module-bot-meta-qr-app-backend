@@ -1,5 +1,5 @@
 import { addKeyword } from "@builderbot/bot";
-import { userState } from "./flowMenuInicio";
+import { userState } from "../utils/state";
 import {encryptPhoneNumber} from "../utils/encypt"
 
 const MENU_URL = "https://module-landing-page-qr-app-frontend-t0rn.onrender.com";

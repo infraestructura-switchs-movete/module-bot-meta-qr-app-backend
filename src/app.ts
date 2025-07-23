@@ -13,6 +13,9 @@ import { Server as SocketIO } from 'socket.io';
 import { fileURLToPath } from 'url';
 import moment from 'moment-timezone';
 import path from 'path';
+import { setSocketIO, userState, globalOrderData } from './utils/state';
+
+
 
 // __dirname emulación
 const __filename = fileURLToPath(import.meta.url);
@@ -20,10 +23,6 @@ const __dirname = path.dirname(__filename);
 
 // Config
 const PORT = config.PORT || process.env.PORT || 3000;
-
-// Estado global
-const userState: any = {};
-const globalOrderData: any = {};
 
 const app = express();
 app.use(cors());
@@ -79,6 +78,8 @@ app.post('/order-complete', async (req, res) => {
 // Crea el servidor HTTP
 const server = http.createServer(app);
 const io = new SocketIO(server);
+
+setSocketIO(io); 
 
 io.on('connection', (socket) => {
   console.log('🔌 WebSocket conectado');
